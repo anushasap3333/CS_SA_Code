@@ -1,0 +1,54 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global"
+                controller="SAIdGetPublicHolidayController">
+	<!-- this page is used to get the public holiday on birthday of input SA ID-->
+    <aura:attribute name="searchInputvalue" type="String" />
+    <aura:attribute name="customerMessage" type="String" />
+    <aura:attribute name="noOfSAIdSearch" type="String" />
+    <aura:attribute name="disabledbtn" type="Boolean" default="true"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+           <lightning:card title="SA ID Information :
+                                  This page is used to get the public holiday list based out of SA ID" >  
+               <div class ="c-container">
+                   <lightning:layout multipleRows="true">
+               <lightning:layoutItem padding ="around-small" size ="3">
+                    <lightning:input class="strong-text" aura:id="searchInput" type="text" placeholder="Enter SA ID" name="input1" pattern="[0-9]*" value="{! v.searchInputvalue }" minlength="13" maxlength="13"  messageWhenTooLong="You have exceeded the limit of max characters" messageWhenTooShort= "Please Enter valid SA ID" label="Enter SA ID" onchange="{! c.handleChange }"/>
+               </lightning:layoutItem>  	 
+
+                       <lightning:layoutItem padding ="around-small">                    		
+                       <lightning:button variant="brand" label="Search" class="slds-m-top--large" disabled="{! v.disabledbtn }" title="Search " onclick="{!c.searchSAID}" iconName="utility:search" />     		    
+                    </lightning:layoutItem>  
+                     <lightning:layoutItem padding ="around-small" size="12">   
+                   <aura:if isTrue="{!v.noOfSAIdSearch}" >
+                   			{!v.noOfSAIdSearch}
+                  
+                   </aura:if> 
+                      </lightning:layoutItem>    
+                   </lightning:layout>
+
+               </div>
+           </lightning:card>
+    <aura:if isTrue="{!v.customerMessage}" >
+        <lightning:card title="SA ID Information and Public holiday list ">
+            <div>
+                {!v.customerMessage}                    
+            </div>
+             <aura:if isTrue="{!v.data}" >
+            <div style="height: 300px;">
+               
+                <lightning:datatable
+                                     keyField="id"
+                                     data="{! v.data }"
+                                     columns="{! v.columns }"
+                     				hideCheckboxColumn="true">
+                </lightning:datatable>
+                
+            </div>
+
+                 
+                 </aura:if>
+        </lightning:card>  
+    </aura:if>         
+    
+           
+</aura:component>
